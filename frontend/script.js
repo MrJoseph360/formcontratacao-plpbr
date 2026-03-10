@@ -358,6 +358,33 @@ document.querySelector('[name="cep"]').addEventListener('input', function () {
   this.value = this.value.replace(/\D/g, '').replace(/(\d{5})(\d)/, '$1-$2').slice(0, 9);
 });
 
+
+// ===== VIA CEP =====
+document.querySelector('[name="cep"]').addEventListener('blur', async function () {
+  const cep = this.value.replace(/\D/g, '');
+  if (cep.length !== 8) return;
+
+  try {
+    const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    const data = await res.json();
+
+    if (data.erro) {
+      alert('CEP não encontrado.');
+      return;
+    }
+
+    document.querySelector('[name="endereco"]').value = data.logradouro || '';
+    document.querySelector('[name="bairro"]').value = data.bairro || '';
+    document.querySelector('[name="cidade"]').value = data.localidade || '';
+    document.querySelector('[name="estado"]').value = data.uf || '';
+
+    document.querySelector('[name="numero"]').focus();
+
+  } catch {
+    console.warn('Erro ao buscar CEP.');
+  }
+});
+
 document.querySelector('[name="telefone"]').addEventListener('input', function () {
   this.value = this.value.replace(/\D/g, '')
     .replace(/(\d{2})(\d)/, '($1) $2')
@@ -372,6 +399,9 @@ document.querySelector('[name="telefone_adicional"]').addEventListener('input', 
     .replace(/(\d{5})(\d)/, '$1-$2')
     .slice(0, 15);
 });
+
+
+
 
 // ===== SUBMIT =====
 document.getElementById('formContratacao').addEventListener('submit', async (e) => {
