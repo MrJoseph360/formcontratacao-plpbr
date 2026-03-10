@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admissão de Colaborador - PLP</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Header com logo -->
+    <header>
+      <img src="https://plp.com.br/wp-content/themes/jupiter/images/logo-plp-novo.png" alt="Logo PLP" class="logo" />
+      <h1>Admissão de Colaborador</h1>
+    </header>
+
+    <!-- Barra de Progresso com bolinhas -->
+    <div class="progresso-container">
+      <div class="progresso-info">
+        <span id="stepAtual">Etapa 1 de 8</span>
+        <span class="progresso-label" id="progressoLabel">Dados Pessoais</span>
+      </div>
+      <div class="steps-dots" id="stepsDots"></div>
+    </div>
+
+    <form id="formContratacao" enctype="multipart/form-data" novalidate>
+
+      <!-- STEP 1: Dados Pessoais -->
+      <div class="step" data-step="1">
+        <div class="step-header"><h2>Dados Pessoais</h2></div>
+        <div class="campos">
+          <div class="campo">
+            <label>Nome Completo <span class="obrigatorio">*</span></label>
+            <input type="text" name="nome_completo" required placeholder="Seu nome completo" />
+          </div>
+          <div class="grid-2">
+            <div class="campo">
+              <label>Sexo <span class="obrigatorio">*</span></label>
+              <select name="sexo" required>
+                <option value="">Selecione...</option>
+                <option>Masculino</option>
+                <option>Feminino</option>
+                <option>Outro</option>
+                <option>Prefiro não informar</option>
+              </select>
+            </div>
+            <div class="campo">
+              <label>Raça/Cor</label>
+              <select name="raca_cor">
+                <option value="">Selecione...</option>
+                <option>Branca</option><option>Preta</option>
+                <option>Parda</option><option>Amarela</option>
+                <option>Indígena</option><option>Prefiro não informar</option>
+              </select>
+            </div>
+            <div class="campo">
+              <label>Data de Nascimento <span class="obrigatorio">*</span></label>
+              <input type="date" name="data_nascimento" required />
+            </div>
+            <div class="campo">
+              <label>Local de Nascimento</label>
+              <input type="text" name="local_nascimento" placeholder="Cidade/UF" />
+            </div>
+          </div>
+          <div class="campo">
+            <label>Nacionalidade</label>
+            <input type="text" name="nacionalidade" value="Brasileira" />
+          </div>
+          <div class="campo">
+            <label>Estado Civil <span class="obrigatorio">*</span></label>
+            <select name="estado_civil" required id="estadoCivil">
+              <option value="">Selecione...</option>
+              <option>Solteiro(a)</option><option>Casado(a)</option>
+              <option>União Estável</option><option>Divorciado(a)</option>
+              <option>Viúvo(a)</option>
+            </select>
+          </div>
+          <div class="campo" id="campoConjuge" style="display:none;">
+            <label>Nome do Cônjuge</label>
+            <input type="text" name="nome_conjuge" placeholder="Nome completo do cônjuge" />
+          </div>
+          <div class="campo">
+            <label>Nome do Pai</label>
+            <input type="text" name="nome_pai" />
+          </div>
+          <div class="campo">
+            <label>Nome da Mãe</label>
+            <input type="text" name="nome_mae" />
+          </div>
+          <div class="grid-2">
+            <div class="campo">
+              <label>Tipo Sanguíneo</label>
+              <select name="tipo_sanguineo">
+                <option value="">Selecione...</option>
+                <option>A</option><option>B</option>
+                <option>AB</option><option>O</option>
+              </select>
+            </div>
+            <div class="campo">
+              <label>Fator RH</label>
+              <select name="fator_rh">
+                <option value="">Selecione...</option>
+                <option>Positivo (+)</option><option>Negativo (-)</option>
+              </select>
+            </div>
+          </div>
+          <div class="campo">
+            <label>E-mail para Contato <span class="obrigatorio">*</span></label>
+            <input type="email" name="email" required placeholder="seu@email.com" />
+          </div>
+          <div class="campo">
+            <label>Telefone <span class="obrigatorio">*</span></label>
+            <input type="tel" name="telefone" required placeholder="(00) 00000-0000" />
+          </div>
+    <div class="campo">
+    <label>Telefone Adicional</label>
+    <input type="tel" name="telefone_adicional" placeholder="(00) 00000-0000" />
+    </div>
+
+        </div>
+      </div>
+
+      <!-- STEP 2: Endereço -->
+      <div class="step" data-step="2" style="display:none;">
+        <div class="step-header"><h2>Endereço</h2></div>
+        <div class="campos">
+          <div class="campo">
+            <label>CEP <span class="obrigatorio">*</span></label>
+            <input type="text" name="cep" required maxlength="9" placeholder="00000-000" />
+          </div>
+          <div class="campo">
+            <label>Endereço <span class="obrigatorio">*</span></label>
+            <input type="text" name="endereco" required placeholder="Rua, Avenida..." />
+          </div>
+          <div class="grid-2">
+            <div class="campo">
+              <label>Número</label>
+              <input type="text" name="numero" placeholder="Nº" />
+            </div>
+            <div class="campo">
+              <label>Bairro</label>
+              <input type="text" name="bairro" />
+            </div>
+            <div class="campo">
+              <label>Cidade</label>
+              <input type="text" name="cidade" />
+            </div>
+            <div class="campo">
+              <label>Estado</label>
+              <select name="estado">
+                <option value="">UF</option>
+                <option>AC</option><option>AL</option><option>AP</option>
+                <option>AM</option><option>BA</option><option>CE</option>
+                <option>DF</option><option>ES</option><option>GO</option>
+                <option>MA</option><option>MT</option><option>MS</option>
+                <option>MG</option><option>PA</option><option>PB</option>
+                <option>PR</option><option>PE</option><option>PI</option>
+                <option>RJ</option><option>RN</option><option>RS</option>
+                <option>RO</option><option>RR</option><option>SC</option>
+                <option>SP</option><option>SE</option><option>TO</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- STEP 3: Documentos -->
+      <div class="step" data-step="3" style="display:none;">
+        <div class="step-header"><h2>Documentos</h2></div>
+        <div class="campos">
+
+          <p class="secao-label">RG</p>
+          <div class="campo">
+            <label>Número</label>
+            <input type="text" name="rg_numero" />
+          </div>
+          <div class="grid-2">
+            <div class="campo">
+              <label>Data de Emissão</label>
+              <input type="date" name="rg_data_emissao" />
+            </div>
+            <div class="campo">
+              <label>Estado de Emissão</label>
+              <select name="rg_estado_emissao">
+                <option value="">UF</option>
+                <option>AC</option><option>AL</option><option>AP</option>
+                <option>AM</option><option>BA</option><option>CE</option>
+                <option>DF</option><option>ES</option><option>GO</option>
+                <option>MA</option><option>MT</option><option>MS</option>
+                <option>MG</option><option>PA</option><option>PB</option>
+                <option>PR</option><option>PE</option><option>PI</option>
+                <option>RJ</option><option>RN</option><option>RS</option>
+                <option>RO</option><option>RR</option><option>SC</option>
+                <option>SP</option><option>SE</option><option>TO</option>
+              </select>
+            </div>
+          </div>
+          <div class="campo">
+            <label>Cidade de Emissão</label>
+            <input type="text" name="rg_cidade_emissao" />
+          </div>
+
+          <p class="secao-label">Título de Eleitor</p>
+          <div class="campo">
+            <label>Número</label>
+            <input type="text" name="titulo_eleitor_numero" />
+          </div>
+          <div class="grid-2">
+            <div class="campo">
+              <label>Zona</label>
+              <input type="text" name="titulo_zona" />
+            </div>
+            <div class="campo">
+              <label>Seção</label>
+              <input type="text" name="titulo_secao" />
+            </div>
+            <div class="campo">
+              <label>Cidade de Emissão</label>
+              <input type="text" name="titulo_cidade_emissao" />
+            </div>
+            <div class="campo">
+              <label>Estado de Emissão</label>
+              <select name="titulo_estado_emissao">
+                <option value="">UF</option>
+                <option>AC</option><option>AL</option><option>AP</option>
+                <option>AM</option><option>BA</option><option>CE</option>
+                <option>DF</option><option>ES</option><option>GO</option>
+                <option>MA</option><option>MT</option><option>MS</option>
+                <option>MG</option><option>PA</option><option>PB</option>
+                <option>PR</option><option>PE</option><option>PI</option>
+                <option>RJ</option><option>RN</option><option>RS</option>
+                <option>RO</option><option>RR</option><option>SC</option>
+                <option>SP</option><option>SE</option><option>TO</option>
+              </select>
+            </div>
+          </div>
+
+          <p class="secao-label">Reservista</p>
+          <div class="campo">
+            <label>Número</label>
+            <input type="text" name="reservista_numero" />
+          </div>
+
+        </div>
+      </div>
+
+      <!-- STEP 4: Dependentes -->
+      <div class="step" data-step="4" style="display:none;">
+        <div class="step-header"><h2>Dependentes</h2></div>
+        <div class="campos">
+          <p class="info-texto">Adicione seus dependentes caso possua. Este campo é opcional.</p>
+          <div id="listaDependentes"></div>
+          <button type="button" class="btn-secundario" id="btnAdicionarDependente">+ Adicionar Dependente</button>
+        </div>
+      </div>
+
+      <!-- STEP 5: Escolaridade -->
+      <div class="step" data-step="5" style="display:none;">
+        <div class="step-header"><h2>Escolaridade e Informações</h2></div>
+        <div class="campos">
+          <div class="campo">
+            <label>Grau de Escolaridade</label>
+            <select name="grau_escolaridade">
+              <option value="">Selecione...</option>
+              <option>Ensino Fundamental Incompleto</option>
+              <option>Ensino Fundamental Completo</option>
+              <option>Ensino Médio Incompleto</option>
+              <option>Ensino Médio Completo</option>
+              <option>Ensino Técnico</option>
+              <option>Superior Incompleto</option>
+              <option>Superior Completo</option>
+              <option>Pós-Graduação</option>
+              <option>Mestrado</option>
+              <option>Doutorado</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label>Estuda Atualmente?</label>
+            <select name="estuda_atualmente">
+              <option value="">Selecione...</option>
+              <option value="true">Sim</option>
+              <option value="false">Não</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label>Foi indicado por alguém?</label>
+            <input type="text" name="indicado_por" placeholder="Nome de quem indicou (opcional)" />
+          </div>
+          <div class="campo">
+            <label>Possui parente na empresa?</label>
+            <select name="parente_na_empresa">
+              <option value="">Selecione...</option>
+              <option value="true">Sim</option>
+              <option value="false">Não</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 6: Dados Bancários -->
+      <div class="step" data-step="6" style="display:none;">
+        <div class="step-header"><h2>Dados Bancários — Itaú</h2></div>
+        <div class="campos">
+          <div class="campo">
+            <label>Banco</label>
+            <input type="text" name="banco" value="Itaú" readonly />
+          </div>
+          <div class="grid-2">
+            <div class="campo">
+              <label>Agência</label>
+              <input type="text" name="agencia" placeholder="0000" maxlength="4" />
+            </div>
+            <div class="campo">
+              <label>Tipo de Conta</label>
+              <select name="tipo_conta">
+                <option value="">Selecione...</option>
+                <option>Corrente</option>
+                <option>Poupança</option>
+              </select>
+            </div>
+            <div class="campo">
+              <label>Número da Conta</label>
+              <input type="text" name="numero_conta" placeholder="00000" />
+            </div>
+            <div class="campo">
+              <label>Dígito</label>
+              <input type="text" name="digito_conta" maxlength="1" placeholder="0" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 7: Anexos -->
+<!-- STEP 7: Anexos -->
+<div class="step" data-step="7" style="display:none;">
+  <div class="step-header"><h2>Anexos</h2></div>
+  <div class="campos">
+    <p class="info-texto">Formatos aceitos: PDF, JPG, PNG. Tamanho máximo por arquivo: 20MB.</p>
+    <div id="containerAnexos"></div>
+  </div>
+</div>
+
+
+      <!-- STEP 8: Revisão -->
+      <div class="step" data-step="8" style="display:none;">
+        <div class="step-header"><h2>Revisão e Envio</h2></div>
+        <div class="campos">
+          <p class="info-texto">Confira os dados antes de enviar. Após o envio não será possível editar.</p>
+          <div id="resumoDados" class="resumo"></div>
+
+             <div class="campo lgpd-campo">
+  <div class="lgpd-check">
+    <input type="checkbox" id="confirmaLGPD" required style="display:inline-block!important;width:20px;height:20px;cursor:pointer;flex-shrink:0;" />
+    <label for="confirmaLGPD" style="font-weight:400;color:#475569;cursor:pointer;">
+      Concordo com o tratamento dos meus dados pessoais conforme a LGPD. <span class="obrigatorio">*</span>
+    </label>
+  </div>
+    
+</div>
+        </div>
+    
+    </div>
+
+      <!-- Navegação -->
+      <div class="navegacao">
+
+
+<!-- 
+DEBUG: remover antes de produção 
+<div id="debugBar" style="position:fixed;top:0;left:0;right:0;background:#1e293b;padding:8px 12px;display:flex;gap:8px;flex-wrap:wrap;z-index:9999;">
+  <span style="color:#94a3b8;font-size:0.75rem;align-self:center;">DEBUG:</span>
+  <button onclick="stepAtual=1;mostrarStep(1)" style="background:#3b82f6;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">1</button>
+  <button onclick="stepAtual=2;mostrarStep(2)" style="background:#3b82f6;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">2</button>
+  <button onclick="stepAtual=3;mostrarStep(3)" style="background:#3b82f6;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">3</button>
+  <button onclick="stepAtual=4;mostrarStep(4)" style="background:#3b82f6;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">4</button>
+  <button onclick="stepAtual=5;mostrarStep(5)" style="background:#3b82f6;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">5</button>
+  <button onclick="stepAtual=6;mostrarStep(6)" style="background:#3b82f6;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">6</button>
+  <button onclick="stepAtual=7;mostrarStep(7)" style="background:#3b82f6;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">7</button>
+  <button onclick="stepAtual=8;mostrarStep(8)" style="background:#3b82f6;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">8</button>
+  <button onclick="preencherDados()" style="background:#22c55e;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">Auto-fill</button>
+</div>
+-->
+
+
+
+
+        <button type="button" class="btn-anterior" id="btnAnterior" style="display:none;">← Anterior</button>
+        <button type="button" class="btn-proximo" id="btnProximo">Próximo →</button>
+        <button type="submit" class="btn-primario" id="btnEnviar" style="display:none;">Enviar Cadastro ✓</button>
+      </div>
+
+    </form>
+
+    <div id="mensagem" class="mensagem" style="display:none;"></div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+
+</html>
