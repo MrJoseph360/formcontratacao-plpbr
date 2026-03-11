@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
@@ -6,6 +6,7 @@ const rateLimit = require('express-rate-limit');
 const candidatoRoutes = require('./routes/candidatos');
 
 const app = express();
+app.set('trust proxy', 1); // necessário para o Render
 const PORT = process.env.PORT || 3000;
 
 // Middlewares
