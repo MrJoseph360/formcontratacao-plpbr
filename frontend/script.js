@@ -424,7 +424,7 @@ document.getElementById('formContratacao').addEventListener('submit', async (e) 
       });
     });
 
-    const response = await fetch('http://localhost:3000/api/candidatos', {
+    const response = await fetch('https://plpbr-formcontratacao.onrender.com/api/candidatos', {
       method: 'POST',
       body: formData
     });
