@@ -20,9 +20,8 @@ header {
   padding: 20px 20px 16px;
   border-bottom: 1px solid #e2e8f0;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
 }
 
 .logo { max-height: 40px; width: auto; }
