@@ -460,3 +460,34 @@ document.getElementById('formContratacao').addEventListener('submit', async (e) 
 // ===== INIT =====
 mostrarStep(1);
 inicializarUploads();
+
+
+// ===== DEBUG AUTOFILL =====
+function preencherDebug() {
+  document.querySelector('[name="nome_completo"]').value = 'João Silva Teste';
+  document.querySelector('[name="email"]').value = 'joao.teste@email.com';
+  document.querySelector('[name="telefone"]').value = '(11) 99999-9999';
+  document.querySelector('[name="data_nascimento"]').value = '1990-05-15';
+  document.querySelector('[name="sexo"]').value = 'Masculino';
+  document.querySelector('[name="estado_civil"]').value = 'Solteiro(a)';
+  document.querySelector('[name="tipo_sanguineo"]').value = 'O';
+  document.querySelector('[name="fator_rh"]').value = 'Positivo';
+
+  document.querySelector('[name="cep"]').value = '01310-100';
+  document.querySelector('[name="endereco"]').value = 'Avenida Paulista';
+  document.querySelector('[name="numero"]').value = '1000';
+  document.querySelector('[name="bairro"]').value = 'Bela Vista';
+  document.querySelector('[name="cidade"]').value = 'São Paulo';
+  document.querySelector('[name="estado"]').value = 'SP';
+
+  document.querySelector('[name="rg_numero"]').value = '12.345.678-9';
+  document.querySelector('[name="titulo_eleitor_numero"]').value = '123456789012';
+
+  document.querySelector('[name="banco"]').value = 'Nubank';
+  document.querySelector('[name="agencia"]').value = '0001';
+  document.querySelector('[name="numero_conta"]').value = '12345678';
+  document.querySelector('[name="digito_conta"]').value = '9';
+  document.querySelector('[name="tipo_conta"]').value = 'Corrente';
+
+  console.log('✅ Autofill aplicado!');
+}

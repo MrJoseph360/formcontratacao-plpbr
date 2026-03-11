@@ -369,19 +369,13 @@ s
 
 
 
-DEBUG: remover antes de produção 
-<div id="debugBar" style="position:fixed;top:0;left:0;right:0;background:#1e293b;padding:8px 12px;display:flex;gap:8px;flex-wrap:wrap;z-index:9999;">
-  <span style="color:#94a3b8;font-size:0.75rem;align-self:center;">DEBUG:</span>
-  <button onclick="stepAtual=1;mostrarStep(1)" style="background:#3b82f6;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">1</button>
-  <button onclick="stepAtual=2;mostrarStep(2)" style="background:#3b82f6;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">2</button>
-  <button onclick="stepAtual=3;mostrarStep(3)" style="background:#3b82f6;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">3</button>
-  <button onclick="stepAtual=4;mostrarStep(4)" style="background:#3b82f6;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">4</button>
-  <button onclick="stepAtual=5;mostrarStep(5)" style="background:#3b82f6;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">5</button>
-  <button onclick="stepAtual=6;mostrarStep(6)" style="background:#3b82f6;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">6</button>
-  <button onclick="stepAtual=7;mostrarStep(7)" style="background:#3b82f6;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">7</button>
-  <button onclick="stepAtual=8;mostrarStep(8)" style="background:#3b82f6;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">8</button>
-  <button onclick="preencherDados()" style="background:#22c55e;color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:0.75rem;cursor:pointer;">Auto-fill</button>
-</div>
+// ===== DEBUG AUTOFILL ===== remover antes de produção  
+<button type="button" id="btnDebug" onclick="preencherDebug()" 
+  style="position:fixed;bottom:16px;right:16px;z-index:9998;background:#6366f1;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;">
+  🛠 Debug Autofill
+</button>
+
+
 
 
 
