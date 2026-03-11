@@ -404,20 +404,22 @@ document.querySelector('[name="telefone_adicional"]').addEventListener('input', 
 
 
 // ===== SUBMIT =====
+// ===== SUBMIT =====
 document.getElementById('formContratacao').addEventListener('submit', async (e) => {
   e.preventDefault();
   if (!validarStep(8)) return;
 
   const btn = document.getElementById('btnEnviar');
   const mensagem = document.getElementById('mensagem');
+  const overlay = document.getElementById('loadingOverlay');
+
   btn.disabled = true;
-  btn.textContent = 'Enviando...';
   mensagem.style.display = 'none';
+  overlay.classList.add('ativo');
 
   try {
     const formData = new FormData(e.target);
 
-    // Injeta os arquivos dos uploads customizados
     ANEXOS.forEach(({ name }) => {
       (arquivosPorCampo[name] || []).forEach(file => {
         formData.append(name, file);
@@ -447,12 +449,13 @@ document.getElementById('formContratacao').addEventListener('submit', async (e) 
     mensagem.className = 'mensagem erro';
     mensagem.textContent = '❌ Erro de conexão. Tente novamente.';
   } finally {
+    overlay.classList.remove('ativo');
     mensagem.style.display = 'block';
     btn.disabled = false;
-    btn.textContent = 'Enviar Cadastro ✓';
     mensagem.scrollIntoView({ behavior: 'smooth' });
   }
 });
+
 
 // ===== INIT =====
 mostrarStep(1);
