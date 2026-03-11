@@ -7,52 +7,68 @@ const LABELS = [
 let stepAtual = 1;
 let contadorDependentes = 0;
 
-// Campos obrigatórios por step
 const OBRIGATORIOS = {
-  1: ['nome_completo', 'email', 'telefone', 'data_nascimento', 'sexo', 'estado_civil'],
-  2: ['cep', 'endereco'],
-  3: [], 4: [], 5: [], 6: [],
-  7: ['foto_digital', 'carta_referencia', 'ctps_digital', 'documento_identidade', 'titulo_eleitor', 'comprovante_endereco'],
+  1: [
+    'nome_completo', 'email', 'telefone',
+    'data_nascimento', 'sexo', 'estado_civil',
+    'nome_pai', 'nome_mae', 'nacionalidade',
+    'local_nascimento', 'tipo_sanguineo', 'fator_rh'
+  ],
+  2: [
+    'cep', 'endereco', 'numero',
+    'bairro', 'cidade', 'estado'
+  ],
+  3: [
+    'rg_numero', 'rg_data_emissao', 'rg_estado_emissao', 'rg_cidade_emissao',
+    'titulo_eleitor_numero', 'titulo_zona', 'titulo_secao',
+    'titulo_cidade_emissao', 'titulo_estado_emissao'
+  ],
+  4: [],
+  5: [
+    'grau_escolaridade', 'estuda_atualmente', 'parente_na_empresa'
+  ],
+  6: [
+    'agencia', 'tipo_conta', 'numero_conta', 'digito_conta'
+  ],
+  7: [
+    'foto_digital', 'carta_referencia', 'ctps_digital',
+    'documento_identidade', 'titulo_eleitor', 'comprovante_endereco'
+  ],
   8: []
 };
 
-// Configuração dos campos de anexo
 const ANEXOS = [
-  { name: 'foto_digital',          label: 'Foto Digital',                          obrigatorio: true,  maxCount: 1 },
-  { name: 'carta_referencia',      label: 'Carta de Referência',                   obrigatorio: true,  maxCount: 3 },
-  { name: 'ctps_digital',          label: 'CTPS Digital',                          obrigatorio: true,  maxCount: 2 },
-  { name: 'documento_identidade',  label: 'Documento de Identidade',               obrigatorio: true,  maxCount: 2 },
-  { name: 'titulo_eleitor',        label: 'Título de Eleitor',                     obrigatorio: true,  maxCount: 2 },
-  { name: 'comprovante_endereco',  label: 'Comprovante de Endereço',               obrigatorio: true,  maxCount: 1 },
-  { name: 'reservista',            label: 'Reservista',                            obrigatorio: false, maxCount: 2 },
-  { name: 'cnh',                   label: 'Carteira de Habilitação (CNH)',          obrigatorio: false, maxCount: 2 },
-  { name: 'certidao_casamento',    label: 'Certidão de Casamento/União Estável',   obrigatorio: false, maxCount: 2 },
-  { name: 'doc_conjuge', label: 'Documento de Identidade do Cônjuge', obrigatorio: false, maxCount: 2 },
-  { name: 'doc_filho', label: 'Documento de Identidade do Filho ou Certidão de Nascimento', obrigatorio: false, maxCount: 5 },
-  { name: 'comprovante_faculdade', label: 'Comprovante de Faculdade',              obrigatorio: false, maxCount: 3 },
-  { name: 'historico_escolar',     label: 'Histórico Escolar',                     obrigatorio: false, maxCount: 3 },
-  { name: 'certificado_curso',     label: 'Certificado Técnico/Graduação/Pós',     obrigatorio: false, maxCount: 5 },
-  { name: 'carta_aposentadoria',   label: 'Carta de Aposentadoria',                obrigatorio: false, maxCount: 2 },
+  { name: 'foto_digital',          label: 'Foto Digital',                                              obrigatorio: true,  maxCount: 1 },
+  { name: 'carta_referencia',      label: 'Carta de Referência',                                       obrigatorio: true,  maxCount: 3 },
+  { name: 'ctps_digital',          label: 'CTPS Digital',                                              obrigatorio: true,  maxCount: 2 },
+  { name: 'documento_identidade',  label: 'Documento de Identidade',                                   obrigatorio: true,  maxCount: 2 },
+  { name: 'titulo_eleitor',        label: 'Título de Eleitor',                                         obrigatorio: true,  maxCount: 2 },
+  { name: 'comprovante_endereco',  label: 'Comprovante de Endereço',                                   obrigatorio: true,  maxCount: 1 },
+  { name: 'reservista',            label: 'Reservista',                                                obrigatorio: false, maxCount: 2 },
+  { name: 'cnh',                   label: 'Carteira de Habilitação (CNH)',                             obrigatorio: false, maxCount: 2 },
+  { name: 'certidao_casamento',    label: 'Certidão de Casamento/União Estável',                       obrigatorio: false, maxCount: 2 },
+  { name: 'doc_conjuge',           label: 'Documento de Identidade do Cônjuge',                        obrigatorio: false, maxCount: 2 },
+  { name: 'doc_filho',             label: 'Documento de Identidade do Filho ou Certidão de Nascimento',obrigatorio: false, maxCount: 5 },
+  { name: 'comprovante_faculdade', label: 'Comprovante de Faculdade',                                  obrigatorio: false, maxCount: 3 },
+  { name: 'historico_escolar',     label: 'Histórico Escolar',                                         obrigatorio: false, maxCount: 3 },
+  { name: 'certificado_curso',     label: 'Certificado Técnico/Graduação/Pós',                         obrigatorio: false, maxCount: 5 },
+  { name: 'carta_aposentadoria',   label: 'Carta de Aposentadoria',                                    obrigatorio: false, maxCount: 2 },
 ];
 
-// Armazena os arquivos selecionados por campo
 const arquivosPorCampo = {};
 
-// Formata tamanho do arquivo
 function formatarTamanho(bytes) {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-// Ícone por tipo de arquivo
 function iconeArquivo(tipo) {
   if (tipo.startsWith('image/')) return '🖼️';
   if (tipo === 'application/pdf') return '📄';
   return '📎';
 }
 
-// Renderiza a lista de arquivos de um campo
 function renderizarLista(name) {
   const lista = document.getElementById(`lista-${name}`);
   const contador = document.getElementById(`contador-${name}`);
@@ -72,7 +88,6 @@ function renderizarLista(name) {
 
   contador.textContent = total > 0 ? `${total}/${config.maxCount}` : '';
   contador.className = `upload-contador ${total > 0 ? 'tem-arquivos' : ''}`;
-
   area.classList.toggle('tem-arquivo', total > 0);
 
   if (total > 0) {
@@ -82,19 +97,15 @@ function renderizarLista(name) {
   }
 }
 
-
-// Remove arquivo individual
 function removerArquivo(name, idx) {
   arquivosPorCampo[name].splice(idx, 1);
   renderizarLista(name);
 }
 
-// Inicializa os campos de upload dinamicamente
 function inicializarUploads() {
   const container = document.getElementById('containerAnexos');
   if (!container) return;
 
-  // Separa obrigatórios e opcionais
   const obrigatorios = ANEXOS.filter(a => a.obrigatorio);
   const opcionais = ANEXOS.filter(a => !a.obrigatorio);
 
@@ -105,7 +116,6 @@ function inicializarUploads() {
 
   container.innerHTML = html;
 
-  // Adiciona eventos
   ANEXOS.forEach(({ name, maxCount }) => {
     arquivosPorCampo[name] = [];
     const input = document.getElementById(`input-${name}`);
@@ -122,13 +132,11 @@ function inicializarUploads() {
         return;
       }
 
-      const adicionados = novos.slice(0, disponiveis);
-      arquivosPorCampo[name] = [...atuais, ...adicionados];
+      arquivosPorCampo[name] = [...atuais, ...novos.slice(0, disponiveis)];
       renderizarLista(name);
       input.value = '';
     });
 
-    // Drag and drop
     area.addEventListener('dragover', (e) => { e.preventDefault(); area.classList.add('drag-over'); });
     area.addEventListener('dragleave', () => area.classList.remove('drag-over'));
     area.addEventListener('drop', (e) => {
@@ -164,7 +172,6 @@ function criarCampoUpload({ name, label, obrigatorio, maxCount }) {
     </div>
   `;
 }
-
 
 // ===== PROGRESSO =====
 function atualizarProgresso() {
@@ -203,7 +210,6 @@ function validarStep(num) {
   document.querySelectorAll('.erro-campo').forEach(el => el.remove());
   document.querySelectorAll('.upload-obrigatorio-aviso').forEach(el => el.style.display = 'none');
 
-  // Campos de texto/select
   const campos = OBRIGATORIOS[num] || [];
   campos.forEach(nome => {
     const el = document.querySelector(`[name="${nome}"]`);
@@ -219,7 +225,6 @@ function validarStep(num) {
     }
   });
 
-  // Validação de anexos obrigatórios no step 7
   if (num === 7) {
     ANEXOS.filter(a => a.obrigatorio).forEach(({ name }) => {
       if (!arquivosPorCampo[name] || arquivosPorCampo[name].length === 0) {
@@ -232,16 +237,15 @@ function validarStep(num) {
     });
   }
 
-  // LGPD no step 8
-// LGPD no step 8
-if (num === 8) {
-  const lgpd = document.getElementById('confirmaLGPD');
-  if (!lgpd || !lgpd.checked) {
-    if (lgpd) lgpd.parentNode.style.color = '#ef4444';
-    valido = false;
+  if (num === 8) {
+    const lgpd = document.getElementById('confirmaLGPD');
+    if (!lgpd || !lgpd.checked) {
+      if (lgpd) lgpd.parentNode.style.color = '#ef4444';
+      valido = false;
+    }
   }
-}
-if (!valido) {
+
+  if (!valido) {
     const primeiro = document.querySelector('.invalido');
     if (primeiro) primeiro.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
@@ -259,14 +263,21 @@ function gerarResumo() {
     { titulo: 'Dados Pessoais', campos: [
       ['Nome', 'nome_completo'], ['E-mail', 'email'], ['Telefone', 'telefone'],
       ['Nascimento', 'data_nascimento'], ['Sexo', 'sexo'], ['Estado Civil', 'estado_civil'],
-      ['Cônjuge', 'nome_conjuge'], ['Tipo Sanguíneo', 'tipo_sanguineo'], ['Fator RH', 'fator_rh']
+      ['Cônjuge', 'nome_conjuge'], ['Tipo Sanguíneo', 'tipo_sanguineo'], ['Fator RH', 'fator_rh'],
+      ['Nome do Pai', 'nome_pai'], ['Nome da Mãe', 'nome_mae'],
+      ['Nacionalidade', 'nacionalidade'], ['Local de Nascimento', 'local_nascimento']
     ]},
     { titulo: 'Endereço', campos: [
       ['CEP', 'cep'], ['Endereço', 'endereco'], ['Número', 'numero'],
       ['Bairro', 'bairro'], ['Cidade', 'cidade'], ['Estado', 'estado']
     ]},
     { titulo: 'Documentos', campos: [
-      ['RG', 'rg_numero'], ['Título de Eleitor', 'titulo_eleitor_numero'], ['Reservista', 'reservista_numero']
+      ['RG', 'rg_numero'], ['Emissão RG', 'rg_data_emissao'],
+      ['Título de Eleitor', 'titulo_eleitor_numero'], ['Reservista', 'reservista_numero']
+    ]},
+    { titulo: 'Escolaridade', campos: [
+      ['Escolaridade', 'grau_escolaridade'], ['Estuda Atualmente', 'estuda_atualmente'],
+      ['Parente na Empresa', 'parente_na_empresa'], ['Indicado por', 'indicado_por']
     ]},
     { titulo: 'Dados Bancários', campos: [
       ['Banco', 'banco'], ['Agência', 'agencia'], ['Conta', 'numero_conta'],
@@ -274,7 +285,6 @@ function gerarResumo() {
     ]}
   ];
 
-  // Resumo de dados
   let htmlResumo = grupos.map(g => {
     const itens = g.campos.map(([label, name]) => {
       const val = data.get(name);
@@ -285,7 +295,6 @@ function gerarResumo() {
     return `<div class="resumo-grupo"><h4>${g.titulo}</h4>${itens}</div>`;
   }).join('');
 
-  // Resumo de anexos
   const anexosResumo = ANEXOS.map(({ name, label }) => {
     const qtd = (arquivosPorCampo[name] || []).length;
     if (!qtd) return '';
@@ -358,7 +367,6 @@ document.querySelector('[name="cep"]').addEventListener('input', function () {
   this.value = this.value.replace(/\D/g, '').replace(/(\d{5})(\d)/, '$1-$2').slice(0, 9);
 });
 
-
 // ===== VIA CEP =====
 document.querySelector('[name="cep"]').addEventListener('blur', async function () {
   const cep = this.value.replace(/\D/g, '');
@@ -368,18 +376,13 @@ document.querySelector('[name="cep"]').addEventListener('blur', async function (
     const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
     const data = await res.json();
 
-    if (data.erro) {
-      alert('CEP não encontrado.');
-      return;
-    }
+    if (data.erro) { alert('CEP não encontrado.'); return; }
 
     document.querySelector('[name="endereco"]').value = data.logradouro || '';
     document.querySelector('[name="bairro"]').value = data.bairro || '';
     document.querySelector('[name="cidade"]').value = data.localidade || '';
     document.querySelector('[name="estado"]').value = data.uf || '';
-
     document.querySelector('[name="numero"]').focus();
-
   } catch {
     console.warn('Erro ao buscar CEP.');
   }
@@ -392,7 +395,6 @@ document.querySelector('[name="telefone"]').addEventListener('input', function (
     .slice(0, 15);
 });
 
-
 document.querySelector('[name="telefone_adicional"]').addEventListener('input', function () {
   this.value = this.value.replace(/\D/g, '')
     .replace(/(\d{2})(\d)/, '($1) $2')
@@ -400,10 +402,50 @@ document.querySelector('[name="telefone_adicional"]').addEventListener('input', 
     .slice(0, 15);
 });
 
+// ===== DEBUG AUTOFILL =====
+function preencherDebug() {
+  document.querySelector('[name="nome_completo"]').value = 'João Silva Teste';
+  document.querySelector('[name="email"]').value = 'joao.teste@email.com';
+  document.querySelector('[name="telefone"]').value = '(11) 99999-9999';
+  document.querySelector('[name="data_nascimento"]').value = '1990-05-15';
+  document.querySelector('[name="sexo"]').value = 'Masculino';
+  document.querySelector('[name="estado_civil"]').value = 'Solteiro(a)';
+  document.querySelector('[name="nome_pai"]').value = 'José Silva';
+  document.querySelector('[name="nome_mae"]').value = 'Maria Silva';
+  document.querySelector('[name="nacionalidade"]').value = 'Brasileira';
+  document.querySelector('[name="local_nascimento"]').value = 'São Paulo/SP';
+  document.querySelector('[name="tipo_sanguineo"]').value = 'O';
+  document.querySelector('[name="fator_rh"]').value = 'Positivo (+)';
 
+  document.querySelector('[name="cep"]').value = '01310-100';
+  document.querySelector('[name="endereco"]').value = 'Avenida Paulista';
+  document.querySelector('[name="numero"]').value = '1000';
+  document.querySelector('[name="bairro"]').value = 'Bela Vista';
+  document.querySelector('[name="cidade"]').value = 'São Paulo';
+  document.querySelector('[name="estado"]').value = 'SP';
 
+  document.querySelector('[name="rg_numero"]').value = '12.345.678-9';
+  document.querySelector('[name="rg_data_emissao"]').value = '2010-03-15';
+  document.querySelector('[name="rg_estado_emissao"]').value = 'SP';
+  document.querySelector('[name="rg_cidade_emissao"]').value = 'São Paulo';
+  document.querySelector('[name="titulo_eleitor_numero"]').value = '123456789012';
+  document.querySelector('[name="titulo_zona"]').value = '001';
+  document.querySelector('[name="titulo_secao"]').value = '0001';
+  document.querySelector('[name="titulo_cidade_emissao"]').value = 'São Paulo';
+  document.querySelector('[name="titulo_estado_emissao"]').value = 'SP';
 
-// ===== SUBMIT =====
+  document.querySelector('[name="grau_escolaridade"]').value = 'Superior Completo';
+  document.querySelector('[name="estuda_atualmente"]').value = 'false';
+  document.querySelector('[name="parente_na_empresa"]').value = 'false';
+
+  document.querySelector('[name="agencia"]').value = '0001';
+  document.querySelector('[name="tipo_conta"]').value = 'Corrente';
+  document.querySelector('[name="numero_conta"]').value = '12345678';
+  document.querySelector('[name="digito_conta"]').value = '9';
+
+  console.log('✅ Autofill aplicado!');
+}
+
 // ===== SUBMIT =====
 document.getElementById('formContratacao').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -456,38 +498,6 @@ document.getElementById('formContratacao').addEventListener('submit', async (e) 
   }
 });
 
-
 // ===== INIT =====
 mostrarStep(1);
 inicializarUploads();
-
-
-// ===== DEBUG AUTOFILL =====
-function preencherDebug() {
-  document.querySelector('[name="nome_completo"]').value = 'João Silva Teste';
-  document.querySelector('[name="email"]').value = 'joao.teste@email.com';
-  document.querySelector('[name="telefone"]').value = '(11) 99999-9999';
-  document.querySelector('[name="data_nascimento"]').value = '1990-05-15';
-  document.querySelector('[name="sexo"]').value = 'Masculino';
-  document.querySelector('[name="estado_civil"]').value = 'Solteiro(a)';
-  document.querySelector('[name="tipo_sanguineo"]').value = 'O';
-  document.querySelector('[name="fator_rh"]').value = 'Positivo';
-
-  document.querySelector('[name="cep"]').value = '01310-100';
-  document.querySelector('[name="endereco"]').value = 'Avenida Paulista';
-  document.querySelector('[name="numero"]').value = '1000';
-  document.querySelector('[name="bairro"]').value = 'Bela Vista';
-  document.querySelector('[name="cidade"]').value = 'São Paulo';
-  document.querySelector('[name="estado"]').value = 'SP';
-
-  document.querySelector('[name="rg_numero"]').value = '12.345.678-9';
-  document.querySelector('[name="titulo_eleitor_numero"]').value = '123456789012';
-
-  document.querySelector('[name="banco"]').value = 'Nubank';
-  document.querySelector('[name="agencia"]').value = '0001';
-  document.querySelector('[name="numero_conta"]').value = '12345678';
-  document.querySelector('[name="digito_conta"]').value = '9';
-  document.querySelector('[name="tipo_conta"]').value = 'Corrente';
-
-  console.log('✅ Autofill aplicado!');
-}
