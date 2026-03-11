@@ -36,11 +36,17 @@ exports.criar = async (req, res) => {
     if (erroCandidato) throw erroCandidato;
 
     // Insere dependentes (se houver)
-    if (dependentes && dependentes.length > 0) {
-      const deps = dependentes.map(d => ({ ...d, candidato_id: candidato.id }));
-      const { error: erroDeps } = await supabase.from('dependentes').insert(deps);
-      if (erroDeps) throw erroDeps;
-    }
+if (dependentes) {
+  // Converte objeto indexado { '1': {...}, '2': {...} } para array
+  const deps = Object.values(dependentes)
+    .filter(d => d.nome && d.nome.trim() !== '')
+    .map(d => ({ ...d, candidato_id: candidato.id }));
+
+  if (deps.length > 0) {
+    const { error: erroDeps } = await supabase.from('dependentes').insert(deps);
+    if (erroDeps) throw erroDeps;
+  }
+}
 
     // Upload dos anexos
     for (const [campo, arquivos] of Object.entries(req.files)) {
